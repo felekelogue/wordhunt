@@ -43,7 +43,7 @@ def main(argv):
         print("Please enter the letters of the board by row, one at a time.")
 
         for i in range(16):
-            letter = input(str(i + 1) + " >>> ").lower()
+            letter = input(f"{str(i + 1)} >>> ").lower()
             while (len(letter) != 1 or letter not in string.ascii_lowercase):
                 print("Invalid input.")
                 letter = input(str(i + 1) + " >>> ").lower()
@@ -51,11 +51,8 @@ def main(argv):
 
         b = Board(dictionary, letters = inputs)
 
-    elif inputFile == "" and random:
+    elif inputFile == "":
         b = Board(dictionary)
-
-    else:
-        pass #handle scanning in here
 
     print(b)
     print("Solving board.")

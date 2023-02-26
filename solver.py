@@ -38,13 +38,13 @@ class GraphSolver:
         sols.sort(reverse = True, key = lambda dir: len(dir))
         return sols
 
-    def measurePerformance(dict, trials = 100):
+    def measurePerformance(self, trials = 100):
         total = 0
         words = 0
 
         for i in range(trials):
             t0 = time.perf_counter()
-            b = Board(dict)
+            b = Board(self)
 
             print(b)
             s = GraphSolver(b)
@@ -55,14 +55,14 @@ class GraphSolver:
             total += elapsed
             words += b.numWords()
 
-            print("TIME FOR TRIAL " + str(i) + ": " + f"{elapsed:.2f}" + ' sec')
-            print("SCORE: " + str(s.getScore()))
-            print("WORDS FOUND: " + str(s.board.numWords()))
+            print(f"TIME FOR TRIAL {str(i)}: " + f"{elapsed:.2f}" + ' sec')
+            print(f"SCORE: {str(s.getScore())}")
+            print(f"WORDS FOUND: {str(s.board.numWords())}")
 
         total /= trials
         words /= trials
 
         print()
-        print("AVERAGE TIME: " + f"{total:.2f}")
-        print("AVERAGE WORDS FOUND: " + str(words))
+        print(f"AVERAGE TIME: {total:.2f}")
+        print(f"AVERAGE WORDS FOUND: {str(words)}")
         print()
