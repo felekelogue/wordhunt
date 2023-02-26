@@ -30,10 +30,16 @@ class Board:
 
         if (letters == []):
             for i in range(Board.width):
-                row = []
-                for j in range(Board.height):
-                     row += [Square(i, j, np.random.choice([*weights],
-                     1, p = list(weights.values())).item())]
+                row = [
+                    Square(
+                        i,
+                        j,
+                        np.random.choice(
+                            [*weights], 1, p=list(weights.values())
+                        ).item(),
+                    )
+                    for j in range(Board.height)
+                ]
                 self.board += [row]
         else:
             index = 0
@@ -53,15 +59,18 @@ class Board:
         print('\n' * 100)
 
         string = '\nSCORE: ' + str(self.score)+ '\n'
-        string += "TOTAL WORDS FOUND: "  + str(len(self.words)) + '\n'
+        string += f"TOTAL WORDS FOUND: {len(self.words)}" + '\n'
         string += self.currentWord.upper() + '\n\n'
         for i in range(self.width):
             row = '   '
             for j in range(self.height):
-                if not self.selected[i][j]:
-                    row += str(self.board[i][j]) + ' '
-                else:
-                    row += "\033[1;30;47m" + str(self.board[i][j]).upper() + '\033[0;37;40m '
+                row += (
+                    "\033[1;30;47m"
+                    + str(self.board[i][j]).upper()
+                    + '\033[0;37;40m '
+                    if self.selected[i][j]
+                    else f'{str(self.board[i][j])} '
+                )
             string += row + '\n'
 
         return string
@@ -112,23 +121,19 @@ class Board:
         return listWords
 
     def endGame(self, full, outputFile):
-        print("SCORE: " + str(self.score))
-        print("TOTAL WORDS FOUND: "  + str(len(self.words)))
+        print(f"SCORE: {str(self.score)}")
+        print(f"TOTAL WORDS FOUND: {len(self.words)}")
         print()
         listWords = self.getOrderedList()
         if (outputFile == ""):
-            if full:
-                num = len(listWords)
-            else:
-                num = min(len(listWords), 20)
-            for i in range(0, num):
-                print(str(i + 1) + ": " + listWords[i])
+            num = len(listWords) if full else min(len(listWords), 20)
+            for i in range(num):
+                print(f"{str(i + 1)}: {listWords[i]}")
         else:
-            f = open(outputFile, 'w')
-            for item in self.getOrderedList():
-                f.write(item + '\n')
-            f.close()
-            print("Word list written to " + outputFile + ".")
+            with open(outputFile, 'w') as f:
+                for item in self.getOrderedList():
+                    f.write(item + '\n')
+            print(f"Word list written to {outputFile}.")
 
         print()
 

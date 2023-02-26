@@ -46,9 +46,7 @@ class BoardWidget:
 
         print(self.game)
         for i in range(self.game.width):
-            row = []
-            for j in range(self.game.height):
-                row += [SquareWidget(self.game.getSquare(i,j))]
+            row = [SquareWidget(self.game.getSquare(i,j)) for j in range(self.game.height)]
             self.board += [row]
 
     def draw_board(self, batch):
